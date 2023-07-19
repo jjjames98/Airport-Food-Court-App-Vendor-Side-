@@ -1,6 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+﻿@using Airport_Food_Court_App__Vendor_Side_.Data;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Vendor> SignInManager
+@inject UserManager<Vendor> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
