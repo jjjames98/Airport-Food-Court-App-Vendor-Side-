@@ -14,6 +14,6 @@ namespace Airport_Food_Court_App__Vendor_Side_.Models
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
-        public ICollection<MenuItem> MenuItems { get; set; }
+        public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
     }
 }

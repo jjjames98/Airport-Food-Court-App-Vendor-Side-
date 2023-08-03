@@ -21,6 +21,12 @@ namespace Airport_Food_Court_App__Vendor_Side_.Data
 
             builder.Entity<Vendor>()
                 .Property(e => e.IsOpen);
+
+            builder.Entity<Menu>()
+                .HasMany(i => i.MenuCategories);
+
+            builder.Entity<MenuCategory>()
+                .HasMany(i => i.MenuItems);
         }
 
         public DbSet<Menu> Menus { get; set; }

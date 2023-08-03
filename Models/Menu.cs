@@ -9,7 +9,7 @@ namespace Airport_Food_Court_App__Vendor_Side_.Models
     {
         public Menu()
         {
-
+     
         }
 
         [Key]
@@ -18,6 +18,6 @@ namespace Airport_Food_Court_App__Vendor_Side_.Models
         [ForeignKey("Vendor")]
         public string UserId { get; set; }
         public virtual Vendor Vendor { get; set; }
-        public ICollection<MenuCategory> MenuCategories { get; set; }
+        public ICollection<MenuCategory> MenuCategories { get; set; } = new List<MenuCategory>();
     }
 }
