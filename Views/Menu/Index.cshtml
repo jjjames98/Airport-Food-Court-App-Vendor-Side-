@@ -40,6 +40,9 @@
                     <td>
                         @obj.Description
                     </td>
+                    <td>
+                        <a asp-controller="Menu" asp-action="EditCategory" asp-route-id=@obj.Id class="btn btn-primary">Edit</a>
+                    </td>
                 </tr>    
             }
         </tbody>
@@ -84,6 +87,9 @@
                     </td>
                     <td>
                         @obj.IsAvailable
+                    </td>
+                    <td>
+                        <a asp-controller="Menu" asp-action="EditItem" asp-route-id=@obj.Id class="btn btn-primary">Edit</a>
                     </td>
                 </tr>
             }

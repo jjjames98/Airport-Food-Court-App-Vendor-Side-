@@ -78,5 +78,67 @@ namespace Airport_Food_Court_App__Vendor_Side_.Controllers
             }
             return View(obj);
         }
+
+        public IActionResult EditCategory(int? id) 
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var categoryFromDb = _db.MenuCategories.Find(id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCategory(MenuCategory obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.MenuCategories.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
+
+        public IActionResult EditItem(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var itemFromDb = _db.MenuItems.Find(id);
+
+            if (itemFromDb == null)
+            {
+                return NotFound();
+            }
+
+            var menu = _db.Menus.First(menu => menu.UserId == UserManager.GetUserAsync(User).Result.Id);
+            var categories = _db.MenuCategories.Where(c => c.MenuId == menu.Id).ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", 1);
+
+            return View(itemFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditItem(MenuItem obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.MenuItems.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
     }
 }
