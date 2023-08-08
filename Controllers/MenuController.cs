@@ -40,6 +40,8 @@ namespace Airport_Food_Court_App__Vendor_Side_.Controllers
 
         public IActionResult CreateCategory()
         {
+            var menu = _db.Menus.FirstOrDefault(m => m.UserId == UserManager.GetUserAsync(User).Result.Id);
+            ViewBag.MenuId = menu.Id;
             return View();
         }
 
@@ -47,9 +49,6 @@ namespace Airport_Food_Court_App__Vendor_Side_.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateCategory(MenuCategory obj)
         {
-            var menu = _db.Menus.FirstOrDefault(m => m.UserId == UserManager.GetUserAsync(User).Result.Id);
-            obj.MenuId = menu.Id;
-            obj.Menu = menu;
             if (ModelState.IsValid)
             {
                 _db.Menus.First(menu => menu.UserId == UserManager.GetUserAsync(User).Result.Id).MenuCategories.Add(obj);
