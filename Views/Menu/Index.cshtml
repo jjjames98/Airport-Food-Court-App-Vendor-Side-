@@ -31,7 +31,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var obj in MenuCategories)
+            @foreach (var obj in ViewBag.Categories)
             {
                 <tr>
                     <td>
@@ -70,25 +70,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var obj in MenuCategories)
+            @foreach (var obj in ViewBag.Items)
             {
-                @foreach (var item in obj.MenuItems)
-                {
-                    <tr>
-                        <td>
-                            @item.Name
-                        </td>
-                        <td>
-                            @item.Price
-                        </td>
-                        <td>
-                            @item.IsAvailable
-                        </td>
-                        <td>
-                            @obj.Name
-                        </td>
-                    </tr>
-                }
+                <tr>
+                    <td>
+                        @obj.Name
+                    </td>
+                    <td>
+                        @obj.MenuCategory.Name
+                    </td>
+                    <td>
+                        @obj.Price
+                    </td>
+                    <td>
+                        @obj.IsAvailable
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

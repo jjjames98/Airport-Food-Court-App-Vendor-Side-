@@ -1,7 +1,11 @@
 ﻿using Airport_Food_Court_App__Vendor_Side_.Data;
 using Airport_Food_Court_App__Vendor_Side_.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq;
 
 namespace Airport_Food_Court_App__Vendor_Side_.Controllers
 {
@@ -26,8 +30,54 @@ namespace Airport_Food_Court_App__Vendor_Side_.Controllers
                 _db.SaveChanges();
             }
 
-            var menu = _db.Menus.First(menu => menu.UserId == UserManager.GetUserAsync(User).Result.Id);
+            var menu = _db.Menus.FirstOrDefault(m => m.UserId == UserManager.GetUserAsync(User).Result.Id);
+            var categories = _db.MenuCategories.Where(c => c.MenuId == menu.Id).ToList();
+            ViewBag.Categories = categories;
+            var items = _db.MenuItems.Where(i => categories.Contains(i.MenuCategory)).ToList();
+            ViewBag.Items = items;
             return View(menu);
+        }
+
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateCategory(MenuCategory obj)
+        {
+            var menu = _db.Menus.FirstOrDefault(m => m.UserId == UserManager.GetUserAsync(User).Result.Id);
+            obj.MenuId = menu.Id;
+            obj.Menu = menu;
+            if (ModelState.IsValid)
+            {
+                _db.Menus.First(menu => menu.UserId == UserManager.GetUserAsync(User).Result.Id).MenuCategories.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
+
+        public IActionResult CreateItem()
+        {
+            var menu = _db.Menus.First(menu => menu.UserId == UserManager.GetUserAsync(User).Result.Id);
+            var categories = _db.MenuCategories.Where(c => c.MenuId == menu.Id).ToList();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", 1);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateItem(MenuItem obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.MenuCategories.First(c => c.Id == obj.MenuCategoryId).MenuItems.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         }
     }
 }

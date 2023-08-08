@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airport_Food_Court_App__Vendor_Side_.Models
 {
@@ -15,5 +16,9 @@ namespace Airport_Food_Court_App__Vendor_Side_.Models
         [Required]
         public string Description { get; set; }
         public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
+        [Required]
+        [ForeignKey("Menu")]
+        public int MenuId { get; set; }
+        public virtual Menu? Menu { get; set; }
     }
 }

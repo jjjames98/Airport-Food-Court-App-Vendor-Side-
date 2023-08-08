@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Airport_Food_Court_App__Vendor_Side_.Models
 {
@@ -13,9 +15,13 @@ namespace Airport_Food_Court_App__Vendor_Side_.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
+        [DisplayName("Is Available")]
         public bool IsAvailable { get; set; }
-
+        [Required]
+        [ForeignKey("Menu")]
+        public int MenuCategoryId { get; set; }
+        public virtual MenuCategory? MenuCategory { get; set; }
 
     }
 }
