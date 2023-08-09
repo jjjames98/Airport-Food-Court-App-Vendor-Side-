@@ -43,6 +43,9 @@
                     <td>
                         <a asp-controller="Menu" asp-action="EditCategory" asp-route-id=@obj.Id class="btn btn-primary">Edit</a>
                     </td>
+                    <td>
+                        <a asp-controller="Menu" asp-action="DeleteCategory" asp-route-id=@obj.Id class="btn btn-danger">Delete</a>
+                    </td>
                 </tr>    
             }
         </tbody>
@@ -90,6 +93,9 @@
                     </td>
                     <td>
                         <a asp-controller="Menu" asp-action="EditItem" asp-route-id=@obj.Id class="btn btn-primary">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Menu" asp-action="DeleteItem" asp-route-id=@obj.Id class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             }

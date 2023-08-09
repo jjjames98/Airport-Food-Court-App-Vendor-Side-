@@ -123,7 +123,7 @@ namespace Airport_Food_Court_App__Vendor_Side_.Controllers
 
             var menu = _db.Menus.First(menu => menu.UserId == UserManager.GetUserAsync(User).Result.Id);
             var categories = _db.MenuCategories.Where(c => c.MenuId == menu.Id).ToList();
-            ViewBag.Categories = new SelectList(categories, "Id", "Name", 1);
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
 
             return View(itemFromDb);
         }
@@ -139,6 +139,56 @@ namespace Airport_Food_Court_App__Vendor_Side_.Controllers
                 return RedirectToAction("Index");
             }
             return View(obj);
+        }
+
+        public IActionResult DeleteCategory(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var categoryFromDb = _db.MenuCategories.Find(id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteCategoryConfirm(MenuCategory obj)
+        {
+            _db.MenuCategories.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteItem(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var itemFromDb = _db.MenuItems.Find(id);
+
+            if (itemFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(itemFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteItemConfirm(MenuItem obj)
+        {
+            _db.MenuItems.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
